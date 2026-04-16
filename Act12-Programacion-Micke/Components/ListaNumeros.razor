@@ -1,0 +1,79 @@
+﻿@page "/listanumeros"
+@rendermode InteractiveServer
+
+<div class="container mt-4">
+    <h1 class="mb-4">Listas de numeros</h1>
+
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label">Número 1</label>
+        <div class="col-sm-10">
+            <input type="number" @bind="num1" class="form-control" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label">Número 2</label>
+        <div class="col-sm-10">
+            <input type="number" @bind="num2" class="form-control" />
+        </div>
+    </div>
+
+    <button class="btn btn-primary mb-4" @onclick="CalcularListas">Calcular</button>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Pares</h3>
+            <div class="list-container">
+                @foreach (var (p, index) in pares.Select((v, i) => (v, i)))
+                {
+                    <div class="p-3 @(index % 2 == 0 ? "bg-light" : "bg-white") border-bottom">
+                        @p
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <h3>Impares</h3>
+            <div class="list-container">
+                @foreach (var (imp, index) in impares.Select((v, i) => (v, i)))
+                {
+                    <div class="p-3 @(index % 2 == 0 ? "bg-light" : "bg-white") border-bottom">
+                        @imp
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private int num1 = 20;
+    private int num2 = 5;
+
+    private List<int> pares = new();
+    private List<int> impares = new();
+
+    private void CalcularListas()
+    {
+        // Limpiamos las listas anteriores
+        pares.Clear();
+        impares.Clear();
+
+        // Identificamos el inicio y el fin correctamente
+        int inicio = Math.Min(num1, num2);
+        int fin = Math.Max(num1, num2);
+
+        for (int i = inicio; i <= fin; i++)
+        {
+            if (i % 2 == 0)
+            {
+                pares.Add(i);
+            }
+            else
+            {
+                impares.Add(i);
+            }
+        }
+    }
+}
